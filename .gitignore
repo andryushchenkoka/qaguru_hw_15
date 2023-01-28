@@ -1,0 +1,10 @@
+\.gradle
+\.idea
+\out
+\build
+
+*.class
+*.log
+*.iml
+gradlew
+gradlew.bat
