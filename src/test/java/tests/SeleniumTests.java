@@ -1,10 +1,7 @@
 package tests;
 
 import config.WebDriverProvider;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -20,6 +17,8 @@ public class SeleniumTests {
     }
 
     @Test
+    @DisplayName("Поиск находит канал с правильным никнеймом")
+    @Tag("Search")
     public void simpleTest() {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.findElement(By.cssSelector("input#search")).sendKeys("fc barcelona");
