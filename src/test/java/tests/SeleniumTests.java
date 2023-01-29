@@ -1,20 +1,10 @@
 package tests;
 
-import config.WebDriverProvider;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-
 import java.time.Duration;
 
-public class SeleniumTests {
-
-    private WebDriver driver;
-
-    @BeforeEach
-    public void startDriver() {
-        driver = new WebDriverProvider().get();
-    }
+public class SeleniumTests extends BaseTest {
 
     @Test
     @DisplayName("Поиск находит канал с правильным никнеймом")
@@ -25,10 +15,5 @@ public class SeleniumTests {
         driver.findElement(By.cssSelector("button#search-icon-legacy")).click();
         String searchResult = driver.findElement(By.cssSelector("#contents>ytd-channel-renderer #subscribers")).getText();
         Assertions.assertEquals("@FCBarcelona", searchResult);
-    }
-
-    @AfterEach
-    public void stopDriver() {
-        driver.quit();
     }
 }
