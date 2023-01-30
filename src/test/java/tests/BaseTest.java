@@ -1,21 +1,27 @@
 package tests;
 
-import config.WebDriverProvider;
-import org.junit.jupiter.api.AfterEach;
+import config.ProjectConfiguration;
+import config.WebConfig;
+import org.aeonbits.owner.ConfigFactory;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.WebDriver;
+
+import static com.codeborne.selenide.Selenide.open;
 
 public class BaseTest {
 
-    protected WebDriver driver;
+    protected static ProjectConfiguration projectConfig;
+    protected static WebConfig config;
 
-    @BeforeEach
-    public void startDriver() {
-        driver = new WebDriverProvider().get();
+    @BeforeAll
+    public static void beforeAll() {
+        config = ConfigFactory.create(WebConfig.class, System.getProperties());
+        projectConfig = new ProjectConfiguration();
+        projectConfig.setupConfig(config);
     }
 
-    @AfterEach
-    public void stopDriver() {
-        driver.quit();
+    @BeforeEach
+    public void beforeEach() {
+        open("https://www.youtube.com/");
     }
 }
