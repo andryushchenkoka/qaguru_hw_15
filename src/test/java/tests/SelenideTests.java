@@ -8,6 +8,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import pages.MainPage;
 import pages.SearchResultsPage;
 
+import static io.qameta.allure.Allure.step;
+
 public class SelenideTests extends BaseTest {
 
     @ParameterizedTest
@@ -19,8 +21,12 @@ public class SelenideTests extends BaseTest {
     @DisplayName("Поиск находит канал с правильным никнеймом")
     @Tag("Search")
     public void simpleTest(String channelName, String expectedTag) {
-        new MainPage().fillSearchInput(channelName);
-        String actualTag = new SearchResultsPage().getAccountTag();
-        Assertions.assertEquals(expectedTag, actualTag);
+        step("Ввести в input название канала и нажать Enter", () -> {
+            new MainPage().fillSearchInput(channelName);
+        });
+        step("Получить тег канала из описания", () -> {
+            String actualTag = new SearchResultsPage().getAccountTag();
+            Assertions.assertEquals(expectedTag, actualTag);
+        });
     }
 }
