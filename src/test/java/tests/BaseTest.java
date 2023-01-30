@@ -1,8 +1,12 @@
 package tests;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
 import config.ProjectConfiguration;
 import config.WebConfig;
+import helpers.Attach;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -23,5 +27,14 @@ public class BaseTest {
     @BeforeEach
     public void beforeEach() {
         open("https://www.youtube.com/");
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
+    @AfterEach
+    void addAttachments() {
+        Attach.screenshotAs("Last screenshot");
+        Attach.pageSource();
+        Attach.browserConsoleLogs();
+        Attach.addVideo();
     }
 }
