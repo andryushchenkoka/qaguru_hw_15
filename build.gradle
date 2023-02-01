@@ -1,5 +1,6 @@
 plugins {
-    id 'java'
+    id 'java-library'
+    id 'io.qameta.allure' version "2.9.6"
 }
 
 group 'org.example'
@@ -9,11 +10,57 @@ repositories {
     mavenCentral()
 }
 
+def allureSelenideVersion = "2.19.0",
+    aspectjWeaverVersion = "1.9.19",
+    junitVersion = "5.9.1",
+    selenideVersion = "6.10.3",
+    seleniumVersion = "4.4.0",
+    slf4jVersion = "2.0.5",
+    ownerVersion = "1.0.12",
+    wdManagerVersion = "5.3.1"
+
+allure {
+    report {
+        version.set(allureSelenideVersion)
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureSelenideVersion)
+            }
+        }
+    }
+}
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation(
+            "io.qameta.allure:allure-selenide:$allureSelenideVersion",
+            "org.aspectj:aspectjweaver:$aspectjWeaverVersion",
+            "org.junit.jupiter:junit-jupiter:$junitVersion",
+            "com.codeborne:selenide:$selenideVersion",
+            "org.seleniumhq.selenium:selenium-java:$seleniumVersion",
+            "org.slf4j:slf4j-simple:$slf4jVersion",
+            "org.aeonbits.owner:owner:$ownerVersion",
+            "io.github.bonigarcia:webdrivermanager:$wdManagerVersion"
+    )
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+compileTestJava {
+    options.encoding = 'UTF-8'
 }
 
 test {
     useJUnitPlatform()
+    systemProperties(System.getProperties())
+}
+
+task searchTests(type: Test) {
+    systemProperties(System.getProperties())
+    useJUnitPlatform {
+        includeTags("Search")
+    }
 }
