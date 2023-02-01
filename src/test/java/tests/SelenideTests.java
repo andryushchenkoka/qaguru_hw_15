@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import pages.MainPage;
 import pages.SearchResultsPage;
+import pages.components.CookiesModal;
 
 import static io.qameta.allure.Allure.step;
 
@@ -22,6 +23,7 @@ public class SelenideTests extends BaseTest {
     @Tag("Search")
     public void simpleTest(String channelName, String expectedTag) {
         step("Ввести в input название канала и нажать Enter", () -> {
+            CookiesModal.acceptAllCookies();
             new MainPage().fillSearchInput(channelName);
         });
         step("Получить тег канала из описания", () -> {

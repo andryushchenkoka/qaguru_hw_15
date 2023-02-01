@@ -26,7 +26,7 @@ public class BaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        open("https://www.youtube.com/");
+        open(config.getBaseUrl());
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
